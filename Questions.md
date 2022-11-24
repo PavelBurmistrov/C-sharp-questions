@@ -227,7 +227,35 @@
 ### Что такое **Singleton** паттерн и как его реализовать
  
  Паттерн, который позволяет создать только один экземпляр класса. Конструктор делаем приватным, а в свойстве можно создать объект, там же и установать синхронизатор для потоков, чтоб они не смогли создать несколько экземпляров.
- 
+ ```
+ public class Singleton
+    {
+        private static Singleton _instance = null!;
+        private static object _objSync = new object();
+
+        private Singleton()
+        {
+        }
+
+        public static Singleton Instance
+        {
+            get
+            {
+                if (_instance == null)
+                {
+                    lock (_objSync)
+                    {
+                        if (_instance == null)
+                        {
+                            _instance = new Singleton();
+                        }
+                    }
+                }
+                return _instance;
+            }
+        }
+    }
+ ```
 ### Оператор **lock** синхронизации доступа в .NET, как он работает, связать его с блоком индекса синхронизации
  
  lock представляет из себя *try {} finally {}*
